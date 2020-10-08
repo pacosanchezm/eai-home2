@@ -1,11 +1,10 @@
-import React, { useState, useContext } from "react"
 import axios from "axios"
-import moment from "moment"
+//import moment from "moment"
 
 // -----------------------------------------------------------------------------
 
-   let graphqlserver = "https://8t8jt.sse.codesandbox.io/gql"
-  // let graphqlserver = "https://smxai.net/graphqleai2"
+let graphqlserver = "https://8t8jt.sse.codesandbox.io/gql"
+// let graphqlserver = "https://smxai.net/graphqleai2"
 
 let usedata = function(StateContextM) {
 
@@ -83,19 +82,8 @@ let usedata = function(StateContextM) {
           if (axdataRes>0) {return axdataRes} else {return 0}
         },
 
-
-
-
-
       }
-
-
     }
-
-
-
-
-
   }
 
 }

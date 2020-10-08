@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, createContext, Suspense } from "react"
-
 import axios from "axios";
 
 
@@ -34,17 +33,12 @@ const useStateUniv = () => {
     LoadingSecc1: useState(useContext(createContext(false))),
     Empresa: useState(useContext(createContext(1))),
 
-
-
-
     User: {
       Id: useState(useContext(createContext(0))),
       Name: useState(useContext(createContext(0))),
       LoginName: useState(useContext(createContext(""))),
       LoginPass: useState(useContext(createContext(""))),
     },
-
-
 
     Signup: {
       Id: useState(useContext(createContext(0))),
@@ -53,18 +47,12 @@ const useStateUniv = () => {
       LoginPass: useState(useContext(createContext(""))),
     },
 
-
-
-
-
   };
 };
-
 
 // ------------------
 
 const ContextProvider = ({ children }) => {
-  // let xTheme = useState(useContext(CtxTheme))
   return (
     <StateContextM.Provider value={useStateUniv()}>
       <ThemeProvider theme={Theme}>{children}</ThemeProvider>
@@ -75,6 +63,7 @@ const ContextProvider = ({ children }) => {
 // -----------------------------------------------------------------------------
 
 const Encabezado = props => {
+  const Estilo = useThemeUI().theme.styles;
 
   const [Loading, setLoading] = useContext(StateContextM).LoadingSecc1;
 
@@ -88,12 +77,7 @@ const Encabezado = props => {
     setUserName(res.data.miuser)
 
     //console.log({data: res.data})
-    console.log({UserId, UserName})
   }
-
-
-
-
 
 // ------------
 
@@ -103,36 +87,33 @@ useEffect(() => {Loader(props) }, [])
   try {
 
     return (
+      <Grid bg="WhiteSmoke" css={{ maxWidth: "610px" }}>
 
-      <Flex bg="#000000" sx={{ height: "34px", width: "100%" }}>
-
-
-        {Loading ? <Spinner size={17} ml={3} /> : 
-
-         
-            <Flex sx={{ height: "34px", width: "100%" }}>
-
-              <Box sx={{ width: "100%" }}>
-
-              {UserName}
-
-              </Box>
-
-            </Flex>
-          
-        }
-      </Flex>
+        <Flex bg="WhiteSmoke" sx={{width: "100%" }}>
+          <Flex sx={{ height: "34px", width: "100%" }}>
+            <Box sx={{ width: "100%" }}>
+              <Text sx={Estilo.t1} >Sushi Factory app</Text>
+            </Box>
+          </Flex>
+        </Flex>
 
 
+        <Flex bg="#000000" sx={{ height: "34px", width: "100%" }}>
+          {Loading ? <Spinner size={17} ml={3} /> : 
+              <Flex sx={{ height: "34px", width: "100%" }}>
+                <Box sx={{ width: "100%" }}>
+                  {UserName}
+                </Box>
+              </Flex>
+          }
+        </Flex>
+      </Grid>
     )
     
   } catch (e) {
     console.error(e);
   }
 }
-
-
-
 
 // -----------------------------------------------------------------------------
 
@@ -342,14 +323,9 @@ const Signup = props => {
       }
     });
 
-    console.log({axapi})
-
-    console.log({data: axapi.data})
-
      await setUserId(axapi.data._id)
      await setUserName(axapi.data.username)
 
-    //console.log({UserId, UserName})
   }
 
 
@@ -517,9 +493,7 @@ export default (App = props => {
           // style={{display: 'flex', justifyContent: 'center'}}
         >
           <header sx={{width: "100%"}}>
-            <h1>Sushi Factory app</h1>
             <Encabezado {...props} />
-
           </header>
 
           <main sx={{width: "100%",flex: "1 1 auto"}}>
