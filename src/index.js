@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "../home/app.js";
+import App from "../eai_home/appi.js";
 
 const rootElement = document.getElementById("root")
 
@@ -12,3 +12,4 @@ ReactDOM.render(
   </React.StrictMode>,
   rootElement
 );
+

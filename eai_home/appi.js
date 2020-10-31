@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext, createContext, Suspense } from 
 import axios from "axios";
 
 
-
-
 // ---------- styles
   /** @jsx jsx */ 
   import { ThemeProvider, jsx, Styled, useThemeUI } from "theme-ui"
@@ -12,13 +10,14 @@ import axios from "axios";
   import "@babel/polyfill"
   //import "../src/styles.css";
 
+  import Head from "./head"
 
   import UsedataHome from "./usedata"
 
 
   
   let App;
-  const StateContextM = createContext();
+  const StateContext = createContext();
 
 // -----------------------------------------------------------------------------
 
@@ -35,7 +34,7 @@ const useStateUniv = () => {
 
     User: {
       Id: useState(useContext(createContext(0))),
-      Name: useState(useContext(createContext(0))),
+      Name: useState(useContext(createContext(""))),
       LoginName: useState(useContext(createContext(""))),
       LoginPass: useState(useContext(createContext(""))),
     },
@@ -54,13 +53,109 @@ const useStateUniv = () => {
 
 const ContextProvider = ({ children }) => {
   return (
-    <StateContextM.Provider value={useStateUniv()}>
+    <StateContext.Provider value={useStateUniv()}>
       <ThemeProvider theme={Theme}>{children}</ThemeProvider>
-    </StateContextM.Provider>
+    </StateContext.Provider>
   );
 };
 
 // -----------------------------------------------------------------------------
+
+let useAcciones = function(StateContext) {
+
+  const [LoginName, setLoginName] = useContext(StateContext).User.LoginName;
+  const [LoginPass, setLoginPass] = useContext(StateContext).User.LoginPass;
+  const [UserId, setUserId] = useContext(StateContext).User.Id;
+  const [UserName, setUserName] = useContext(StateContext).User.Name;
+
+  // ---------------------
+  
+  return {
+
+    Loader : async function (props) {
+      const res = await axios.get(server + '/logindata')
+      setUserId(res.data.miid)
+      setUserName(res.data.miuser)
+    },
+
+
+    Logger : async function (props) {
+      let axapi = await axios({
+        method: "get",
+        headers: { 'Access-Control-Allow-Origin': '*'},
+        url: "/loginp",
+        baseURL: server,
+        params: {
+          username: LoginName,
+          password: LoginPass,
+        }
+      })
+  
+       await setUserId(axapi.data._id)
+       await setUserName(axapi.data.username)
+    },
+
+     Logout : async function (props) {
+      let axapi = await axios({
+        method: "get",
+        headers: { 'Access-Control-Allow-Origin': '*'},
+        url: "/logout",
+        baseURL: server,
+      });
+  
+      await setUserId(0)
+      await setUserName("")
+    },
+
+     useChange : (Field, setField) => {
+      return {
+        name: Field,
+        value: Field,
+        fontSize: 1,
+        color: "#595959",
+        bg: "#DCDCDC",
+        onChange: e => {
+          setField(e.target.value);
+        }
+      }
+    },
+
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+
+const Body = props => {
+  const [Loading, setLoading] = useContext(StateContext).LoadingSecc1
+
+ // const useData = new usedata()
+  const useacciones = new useAcciones(StateContext)
+
+// ------------
+
+  useEffect(() => {useacciones.Loader(props) }, [])
+
+// ------------
+  try {
+    return (
+      <Flex sx={{width: "100%" }}>
+
+        <Head default
+          useContext={useContext(StateContext)}
+          // useData = {useData}
+          useAcciones = {useacciones}
+        />
+
+      </Flex>
+    )
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// -----------------------------------------------------------------------------
+
 
 const Encabezado = props => {
   const Estilo = useThemeUI().theme.styles;
@@ -75,13 +170,11 @@ const Encabezado = props => {
     const res = await axios.get(server + '/logindata');
     setUserId(res.data.miid)
     setUserName(res.data.miuser)
-
-    //console.log({data: res.data})
   }
 
 // ------------
 
-useEffect(() => {Loader(props) }, [])
+// useEffect(() => {Loader(props) }, [])
 
 // ------------
   try {
@@ -98,7 +191,7 @@ useEffect(() => {Loader(props) }, [])
         </Flex>
 
 
-        <Flex bg="#000000" sx={{ height: "34px", width: "100%" }}>
+        <Flex sx={{ height: "34px", width: "100%" }}>
           {Loading ? <Spinner size={17} ml={3} /> : 
               <Flex sx={{ height: "34px", width: "100%" }}>
                 <Box sx={{ width: "100%" }}>
@@ -352,12 +445,6 @@ const Signup = props => {
       return 0
     }
 
-
-
-
-
-
-
     // console.log({data: axapi.data})
 
     //  await setUserId(axapi.data._id)
@@ -441,7 +528,6 @@ const Signup = props => {
                      <Text sx={Estilo.mbtn1}>
                        Registrar 
                       </Text>
-
                   </Button>
               </Box>
 
@@ -481,33 +567,24 @@ export default (App = props => {
     <div style={{display: 'flex', justifyContent: 'center'}}>
 
       <ContextProvider>
-        <Flex bg="DimGrey"
+        <Flex bg="White"
           sx={{
             display: "flex",
             flexDirection: "column",
-            // set this to `minHeight: '100vh'` for full viewport height
             minHeight: '100vh',
             justifyContent: 'center'
           }}
           css={{ maxWidth: "610px" }}
-          // style={{display: 'flex', justifyContent: 'center'}}
         >
           <header sx={{width: "100%"}}>
-            <Encabezado {...props} />
+            <Body {...props} />
           </header>
 
           <main sx={{width: "100%",flex: "1 1 auto"}}>
 
-            <Info {...props} />
-            <Signup {...props} />
+            {/* <Info {...props} />
+            <Signup {...props} /> */}
 
-
-            {/* <CatalogoProductos {...props} />
-            <Cupon {...props} />
-            <Sponsor {...props} />
-            <Orden {...props} />
-            <Pago {...props} />
-            <Roll {...props} /> */}
           </main>
 
         </Flex>
