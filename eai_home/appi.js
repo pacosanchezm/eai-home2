@@ -4,15 +4,19 @@ import axios from "axios";
 
 // ---------- styles
   /** @jsx jsx */ 
-  import { ThemeProvider, jsx, Styled, useThemeUI } from "theme-ui"
-  import { Grid, Flex, Box, Button, Text, Image, Spinner, Input } from "@theme-ui/components"
+  import { ThemeProvider, jsx, Styled, useThemeUI, MenuButton } from "theme-ui"
+  import { Grid, Flex, Box, Button, Text, Image, Spinner, Input, Link } from "@theme-ui/components"
   import Theme from "./theme"
   import "@babel/polyfill"
-  //import "../src/styles.css";
 
   import Head from "./head"
-
   import UsedataHome from "./usedata"
+
+  import SideBar from "./sidebar";
+  import "./styles.css";
+
+  import { useMediaQuery } from 'react-responsive'
+
 
 
   
@@ -141,11 +145,15 @@ const Body = props => {
     return (
       <Flex sx={{width: "100%" }}>
 
-        <Head default
-          useContext={useContext(StateContext)}
-          // useData = {useData}
-          useAcciones = {useacciones}
-        />
+        <Box sx={{ width: "100%" }}>
+
+          <Head sx={{width: "100%" }}
+            useContext={useContext(StateContext)}
+            // useData = {useData}
+            useAcciones = {useacciones}
+          />
+
+        </Box>
 
       </Flex>
     )
@@ -157,440 +165,207 @@ const Body = props => {
 // -----------------------------------------------------------------------------
 
 
-const Encabezado = props => {
-  const Estilo = useThemeUI().theme.styles;
-
-  const [Loading, setLoading] = useContext(StateContextM).LoadingSecc1;
-
-  const [UserId, setUserId] = useContext(StateContextM).User.Id;
-  const [UserName, setUserName] = useContext(StateContextM).User.Name;
-
-
-  let Loader = async function (props) {
-    const res = await axios.get(server + '/logindata');
-    setUserId(res.data.miid)
-    setUserName(res.data.miuser)
-  }
-
-// ------------
-
-// useEffect(() => {Loader(props) }, [])
-
-// ------------
-  try {
-
-    return (
-      <Grid bg="WhiteSmoke" css={{ maxWidth: "610px" }}>
-
-        <Flex bg="WhiteSmoke" sx={{width: "100%" }}>
-          <Flex sx={{ height: "34px", width: "100%" }}>
-            <Box sx={{ width: "100%" }}>
-              <Text sx={Estilo.t1} >Sushi Factory app</Text>
-            </Box>
-          </Flex>
-        </Flex>
-
-
-        <Flex sx={{ height: "34px", width: "100%" }}>
-          {Loading ? <Spinner size={17} ml={3} /> : 
-              <Flex sx={{ height: "34px", width: "100%" }}>
-                <Box sx={{ width: "100%" }}>
-                  {UserName}
-                </Box>
-              </Flex>
-          }
-        </Flex>
-      </Grid>
-    )
-    
-  } catch (e) {
-    console.error(e);
-  }
-}
-
 // -----------------------------------------------------------------------------
 
-const Info = props => {
+const MenuHeader1 = props => {
   const Estilo = useThemeUI().theme.styles;
 
-  const [Loading, setLoading] = useContext(StateContextM).LoadingSecc1;
-
-  const [LoginName, setLoginName] = useContext(StateContextM).User.LoginName;
-  const [LoginPass, setLoginPass] = useContext(StateContextM).User.LoginPass;
-  const [UserId, setUserId] = useContext(StateContextM).User.Id;
-  const [UserName, setUserName] = useContext(StateContextM).User.Name;
-
-
-  let Logger = async function (props) {
-
-    let axapi = await axios({
-      method: "get",
-      headers: { 
-        'Access-Control-Allow-Origin': '*'
-       },
-      url: "/loginp",
-      baseURL: server,
-      params: {
-        username: LoginName,
-        password: LoginPass,
-      }
-    });
-
-    console.log({axapi})
-
-    console.log({data: axapi.data})
-
-     await setUserId(axapi.data._id)
-     await setUserName(axapi.data.username)
-
-    //console.log({UserId, UserName})
-  }
-
-
-  let Logout = async function (props) {
-
-    let axapi = await axios({
-      method: "get",
-      headers: { 
-        'Access-Control-Allow-Origin': '*'
-       },
-      url: "/logout",
-      baseURL: server,
-    });
-
-    await setUserId(0)
-    await setUserName("")
-
-  }
-
-
-  const useChange = (Field, setField) => {
-    return {
-      name: Field,
-      value: Field,
-      fontSize: 1,
-      color: "#595959",
-      bg: "#DCDCDC",
-      onChange: e => {
-        setField(e.target.value);
-      }
-    };
-  };
-
+// -------------
 
 // ------------
 
-//useEffect(() => {Loader(props) }, [])
 
 // ------------
   try {
 
     return (
 
-      <Flex  sx={{width: "100%" }}>
+      <div
+        sx={{
+          display: 'grid',
+          gridGap: 3,
+          gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+        }}>
 
-        {Loading ? <Spinner size={17} ml={3} /> : 
+        <Link sx={Estilo.menu1}
+          to='/acc/login' 
+        >
+          Mi Cuenta
+        </Link>
 
-          <Grid bg="WhiteSmoke" css={{ maxWidth: "610px" }}>
-
-            <Flex sx={{ width: "100%" }}>
-
-              <Box sx={{ width: "100%" }}>
-
-
-              <Flex sx={{ width: "100%", alignItems: 'center', mb: 3 }}>
-                <Box sx={{ width: "20%"}}>
-                  <Text sx={Estilo.h2b} >Tel</Text>
-                </Box>
-                <Box sx={{ width: "70%" }}>
-                  <Input {...useChange(LoginName, setLoginName)}/>
-                </Box>
-              </Flex>
-
-
-              <Flex sx={{ width: "100%", alignItems: 'center', mb: 3 }}>
-                <Box sx={{ width: "20%"}}>
-                  <Text sx={Estilo.h2b} >Pass</Text>
-                </Box>
-                <Box sx={{ width: "70%" }}>
-                  <Input {...useChange(LoginPass, setLoginPass)}/>
-                </Box>
-              </Flex>
-
-              </Box>
-
-            </Flex>
-
-
-              <Box sx={{ width: "70%" }}>
-
-                  <Button sx={{ width: "100%", height: "34px" }}
-                    width={1}
-                    bg={"gray"}
-                    //disabled={EnableBoton()}
-                    onClick={async () => {
-
-                      await Logger()
-
-                      // setLoadingSecc(true)
-                      // await props.useAcciones.InfoAdd(props.Referido)
-                      // setLoadingSecc(false)
-                    }}
-                  >
-                     <Text sx={Estilo.mbtn1}>
-                       Entrar
-                      </Text>
-
-                  </Button>
-
-              </Box>
-
-
-              <Box sx={{ width: "70%" }}>
-
-                  <Button sx={{ width: "100%", height: "34px" }}
-                    width={1}
-                    bg={"gray"}
-                    //disabled={EnableBoton()}
-                    onClick={async () => {
-
-                      await Logout()
-
-                    }}
-                  >
-                     <Text sx={Estilo.mbtn1}>
-                       Cerrar Sesión
-                      </Text>
-
-                  </Button>
-
-              </Box>
-
-          </Grid>
-        }
-      </Flex>
-
-
+        <Link sx={Estilo.menu1}
+          to='/acc/signup'
+        >
+          Menu
+        </Link>
+      
+        <Link sx={Estilo.menu1}
+          to='/acc/info'
+        >
+          Blog
+        </Link>
+      
+        <Link sx={Estilo.menu1}
+          to='/orders'
+        >
+          Contacto
+        </Link>
+      
+      </div>
     )
-    
+
   } catch (e) {
     console.error(e);
   }
 }
 
 
-// -----------------------------------------------------------------------------
 
 
 // -----------------------------------------------------------------------------
 
-const Signup = props => {
+
+
+// -----------------------------------------------------------------------------
+
+const MenuHeader21 = props => {
   const Estilo = useThemeUI().theme.styles;
-  const [Loading, setLoading] = useContext(StateContextM).LoadingSecc1;
 
-   const UsedataHomeMx = new UsedataHome()
-  const [Empresa, setEmpresa] = useContext(StateContextM).Empresa;
-
-
-  const [LoginName, setLoginName] = useContext(StateContextM).Signup.LoginName;
-  const [LoginPass, setLoginPass] = useContext(StateContextM).Signup.LoginPass;
-  const [UserId, setUserId] = useContext(StateContextM).Signup.Id;
-  const [UserName, setUserName] = useContext(StateContextM).Signup.Name;
-
-  const [LoadingButton1, setLoadingButton1] = useState(useContext(createContext(false)))
-
-
-
-  let Logger = async function (props) {
-
-    let axapi = await axios({
-      method: "get",
-      headers: { 
-        'Access-Control-Allow-Origin': '*'
-       },
-      url: "/loginp",
-      baseURL: server,
-      params: {
-        username: LoginName,
-        password: LoginPass,
-      }
-    });
-
-     await setUserId(axapi.data._id)
-     await setUserName(axapi.data.username)
-
-  }
-
-
-
-
-  let SignUp = async function (props) {
-
-    let Cliente = await UsedataHomeMx.Clientes().get({Telefono: LoginName, Empresa: Empresa})
-
-    if (Cliente.length===0){
-
-      let InsertCliente = await UsedataHomeMx.Clientes().insert({
-        Empresa: Empresa,
-        Origen: "Registro",
-        Telefono: LoginName,
-        Pass: LoginPass,
-      })
-
-      console.log({InsertCliente})
-      if (InsertCliente>0) {return 1}
-
-    } else {
-       console.log({Cliente})
-      return 0
-    }
-
-    // console.log({data: axapi.data})
-
-    //  await setUserId(axapi.data._id)
-    //  await setUserName(axapi.data.username)
-
-    //console.log({UserId, UserName})
-  }
-
-
-  const useChange = (Field, setField) => {
-    return {
-      name: Field,
-      value: Field,
-      fontSize: 1,
-      color: "#595959",
-      bg: "#DCDCDC",
-      onChange: e => {
-        setField(e.target.value);
-      }
-    };
-  };
-
+// -------------
 
 // ------------
 
-//useEffect(() => {Loader(props) }, [])
 
 // ------------
   try {
 
     return (
 
-      <Flex  sx={{width: "100%" }}>
+      <div
+        sx={{
+          display: 'grid',
+          gridGap: 3,
+          gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+        }}>
 
-        {Loading ? <Spinner size={17} ml={3} /> : 
+        <Link sx={Estilo.menu1}
+          to='/acc/login' 
+        >
+          Iniciar Sesión
+        </Link>
 
-          <Grid bg="WhiteSmoke" css={{ maxWidth: "610px" }}>
-
-            <Flex sx={{ width: "100%" }}>
-
-              <Box sx={{ width: "100%" }}>
-
-
-              <Flex sx={{ width: "100%", alignItems: 'center', mb: 3 }}>
-                <Box sx={{ width: "20%"}}>
-                  <Text sx={Estilo.h2b} >Tel</Text>
-                </Box>
-                <Box sx={{ width: "70%" }}>
-                  <Input {...useChange(LoginName, setLoginName)}/>
-                </Box>
-              </Flex>
-
-
-              <Flex sx={{ width: "100%", alignItems: 'center', mb: 3 }}>
-                <Box sx={{ width: "20%"}}>
-                  <Text sx={Estilo.h2b} >Pass</Text>
-                </Box>
-                <Box sx={{ width: "70%" }}>
-                  <Input {...useChange(LoginPass, setLoginPass)}/>
-                </Box>
-              </Flex>
-
-              </Box>
-
-            </Flex>
-
-            <Flex sx={{ width: "100%", alignItems: 'center', mb: 3 }}>
-
-              <Box sx={{ width: "70%" }}>
-
-                  <Button sx={{ width: "100%", height: "34px" }}
-                    width={1}
-                    bg={"gray"}
-                    disabled={LoadingButton1 ? true : false}
-                    onClick={async () => {
-                      setLoadingButton1(true)
-                      let MiSignUp = await SignUp()
-                      setLoadingButton1(false)
-                    }}
-                  >
-                     <Text sx={Estilo.mbtn1}>
-                       Registrar 
-                      </Text>
-                  </Button>
-              </Box>
-
-              <Box sx={{ width: "30%" }}>
-                {LoadingButton1 ? <Spinner size={17} ml={3} /> : <div/>}
-              </Box>
-
-
-            </Flex>
-
-
-
-          </Grid>
-        }
-      </Flex>
-
-
+        <Link sx={Estilo.menu1}
+          to='/acc/signup'
+        >
+          Registrarse
+        </Link>
+      
+        <Link sx={Estilo.menu1}
+          to='/acc/info'
+        >
+          Mis Datos
+        </Link>
+      
+        <Link sx={Estilo.menu1}
+          to='/orders'
+        >
+          Mis Pedidos
+        </Link>
+      
+      </div>
     )
-    
+
   } catch (e) {
     console.error(e);
   }
 }
 
 
-// -----------------------------------------------------------------------------
-
-
-
 
 
 // -----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 // -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
 
 export default (App = props => {
+
+  const isDesktop = useMediaQuery({ minWidth: 550 })
+
   return (
-    <div style={{display: 'flex', justifyContent: 'center'}}>
 
-      <ContextProvider>
-        <Flex bg="White"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            minHeight: '100vh',
-            justifyContent: 'center'
-          }}
-          css={{ maxWidth: "610px" }}
-        >
-          <header sx={{width: "100%"}}>
-            <Body {...props} />
-          </header>
+      <div id="App">
 
-          <main sx={{width: "100%",flex: "1 1 auto"}}>
+        {isDesktop ? <div/>
+          :  <div>
+              <SideBar pageWrapId={"page-wrap"} outerContainerId={"App"} />
+            </div>                 
+           
+        }
 
-            {/* <Info {...props} />
-            <Signup {...props} /> */}
 
-          </main>
+        <div id="page-wrap">
 
-        </Flex>
-      </ContextProvider>
+          <div style={{display: 'flex',
+           justifyContent: 'center'
+           }}
+          >
+              <ContextProvider>
 
-    </div>
+                <Flex bg="White"
+                  sx={{
+                    display: "flex",
+                     flexDirection: "column",
+                    width: "100%",
+                    minHeight: '300vh',
+                    //justifyContent: 'center'
+                  }}
+                 // css={{ maxWidth: "768px", minWidth: "410px" }}
+
+                >
+                  <header sx={{width: "100%"}}>
+                    <Body {...props} />
+
+                  </header>
+
+                  <main sx={{width: "100%",
+                    // flex: "1 1 auto"
+                    }}
+                  >
+
+
+                    {isDesktop ? 
+                        <div>
+                          <MenuHeader1 {...props} />
+                          <MenuHeader21 {...props} />
+                        </div>                 
+                      : <div/>
+                    }
+
+
+
+
+                  </main>
+
+                </Flex>
+
+              </ContextProvider>
+          </div>
+
+        </div>
+      </div>
+
+
 );
 });
 

@@ -50,12 +50,12 @@ const Body = props => {
   try {
 
     return (
-      <Grid bg="WhiteSmoke" css={{ maxWidth: "610px" }}>
+      <Grid bg="WhiteSmoke" sx={{justifyContent: 'center', width: "100%"}} >
 
         <Flex bg="WhiteSmoke" sx={{width: "100%" }}>
           <Flex sx={{ height: "34px", width: "100%" }}>
             <Box sx={{ width: "100%" }}>
-              <Text sx={Estilo.t1} >Sushi Factory app</Text>
+              <Text sx={Estilo.t1} >Sushi Factory app :)</Text>
             </Box>
           </Flex>
         </Flex>

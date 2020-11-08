@@ -627,6 +627,22 @@ export default {
 
 
 
+    // --------- menus
+
+
+    menu1: {
+      ml: 3,
+      fontSize: 2,
+      fontFamily: "body",
+      fontWeight: "bold",
+      color: "dimgray",
+      textDecoration: "none",
+      ':hover': {
+        color: '#A52A2A',
+      }
+
+    },
+
 
 
   }
