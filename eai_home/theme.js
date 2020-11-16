@@ -199,7 +199,15 @@ export default {
     },
 
 
-
+    t1sr: {
+      fontSize: 2,
+      fontFamily: "body",
+      fontWeight: "bold",
+      textAlign: "left",
+      color: "#A52A2A",
+      mt: 4,
+      mb: 2
+    },
     
 
 

@@ -1,30 +1,39 @@
 import React, { useState, useEffect, useContext, createContext, Suspense } from "react"
-import axios from "axios";
+import axios from "axios"
+
 
 
 // ---------- styles
   /** @jsx jsx */ 
   import { ThemeProvider, jsx, Styled, useThemeUI, MenuButton } from "theme-ui"
-  import { Grid, Flex, Box, Button, Text, Image, Spinner, Input, Link } from "@theme-ui/components"
+  import { Grid, Flex, Box, Button, Text, Image, Spinner, Input } from "@theme-ui/components"
+
   import Theme from "./theme"
   import "@babel/polyfill"
 
+  import { useMediaQuery } from 'react-responsive'
+  import { Router, Link } from "@reach/router";
+
+
+
+
   import Head from "./head"
   import UsedataHome from "./usedata"
+  import Menu from "./menu"
 
   import SideBar from "./sidebar";
   import "./styles.css";
 
-  import { useMediaQuery } from 'react-responsive'
 
 
+  import Login from "./login"
 
   
   let App;
   const StateContext = createContext();
 
 // -----------------------------------------------------------------------------
-
+// ---------------
 
   let server = "https://sushifactory.app"
 
@@ -35,6 +44,11 @@ const useStateUniv = () => {
     Theme: useState(useContext(createContext(Theme))),
     LoadingSecc1: useState(useContext(createContext(false))),
     Empresa: useState(useContext(createContext(1))),
+
+    Menu: {
+      onMenu: useState(useContext(createContext(false))),
+      Selected: useState(useContext(createContext(0))),
+    },
 
     User: {
       Id: useState(useContext(createContext(0))),
@@ -130,7 +144,7 @@ let useAcciones = function(StateContext) {
 
 // -----------------------------------------------------------------------------
 
-const Body = props => {
+const HeaderBody = props => {
   const [Loading, setLoading] = useContext(StateContext).LoadingSecc1
 
  // const useData = new usedata()
@@ -165,10 +179,106 @@ const Body = props => {
 // -----------------------------------------------------------------------------
 
 
+
+
+
+
+
+
+
+
+const Body = props => {
+  const [Loading, setLoading] = useContext(StateContext).LoadingSecc1
+
+ // const useData = new usedata()
+  const useacciones = new useAcciones(StateContext)
+
+// ------------
+
+  useEffect(() => {useacciones.Loader(props) }, [])
+
+// ------------
+  try {
+    return (
+      <Flex sx={{width: "100%" }}>
+
+        <Box sx={{ width: "100%" }}>
+
+          <Router>
+            <Login 
+              path=":login"  
+              useContext={useContext(StateContext)}
+              useAcciones = {useacciones}
+            />
+            {/* <Signup 
+              path="/acc/signup"
+              useContext={useContext(StateContext)}
+              useAcciones = {useacciones}
+            />
+
+            <Info 
+              path="/acc/info"
+              useContext={useContext(StateContext)}
+              useAcciones = {useacciones}
+            /> */}
+
+
+          </Router>
+
+        </Box>
+
+      </Flex>
+    )
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+
+const MenuBody = props => {
+  const Estilo = useThemeUI().theme.styles;
+  // const usestatus = new useStatus(StateContext)
+  const useacciones = new useAcciones(StateContext)
+
+// ------------
+try {
+
+  return (
+    <Flex sx={{width: "100%" }}>
+
+      <Box sx={{ width: "100%" }}>
+
+        <Menu 
+          useContext={useContext(StateContext)}
+          useAcciones = {useacciones}
+          //useStatus = {usestatus}
+        />
+
+      </Box>
+
+    </Flex>
+    )
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+
+
+
+
+
+
+
 // -----------------------------------------------------------------------------
 
 const MenuHeader1 = props => {
   const Estilo = useThemeUI().theme.styles;
+  const [MenuSelected, setMenuSelected] = useContext(StateContext).Menu.Selected
+  const [onMenu, setonMenu] = useContext(StateContext).Menu.onMenu
 
 // -------------
 
@@ -180,38 +290,56 @@ const MenuHeader1 = props => {
 
     return (
 
+    <div
+      sx={{ width: "100%" }}
+      onMouseOver={() => { setonMenu(true)}}
+      onMouseLeave={() => { 
+        setonMenu(false)
+        setMenuSelected(0)
+      }}
+    >
       <div
         sx={{
           display: 'grid',
           gridGap: 3,
           gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-        }}>
+        }}
+      >
 
         <Link sx={Estilo.menu1}
-          to='/acc/login' 
+          to='/' 
+          onMouseOver={() => { setMenuSelected(1)}}
         >
           Mi Cuenta
         </Link>
 
         <Link sx={Estilo.menu1}
-          to='/acc/signup'
-        >
-          Menu
+          to='/' 
+          onMouseOver={() => { setMenuSelected(2)}}
+         >
+          Mis Pedidos
         </Link>
       
         <Link sx={Estilo.menu1}
-          to='/acc/info'
-        >
+          to='/' 
+          onMouseOver={() => { setMenuSelected(3)}}
+         >
           Blog
         </Link>
       
         <Link sx={Estilo.menu1}
-          to='/orders'
+          to='/' 
+          onMouseOver={() => { setMenuSelected(4)}}
         >
           Contacto
         </Link>
-      
+
       </div>
+
+      <MenuHeader21 {...props} />
+
+    </div>
+
     )
 
   } catch (e) {
@@ -231,47 +359,152 @@ const MenuHeader1 = props => {
 const MenuHeader21 = props => {
   const Estilo = useThemeUI().theme.styles;
 
+  const [MenuSelected, setMenuSelected] = useContext(StateContext).Menu.Selected
+  const [onMenu, setonMenu] = useContext(StateContext).Menu.onMenu
+
+
 // -------------
 
+
+
+const SubMenu1  = () => {
+
+  return (
+  
+    <div
+      sx={{
+        display: 'grid',
+        gridGap: 3,
+        gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+        height: "34px",
+        alignItems: "center",
+      }}>
+
+      <Link sx={Estilo.menu1}
+        to='/login' 
+      >
+        Iniciar Sesión
+      </Link>
+
+      <Link sx={Estilo.menu1}
+        to='/acc/signup'
+      >
+        Registrarse
+      </Link>
+    
+      <Link sx={Estilo.menu1}
+        to='/acc/info'
+      >
+        Mis Datos
+      </Link>
+    
+      <Link sx={Estilo.menu1}
+        to='/orders'
+      >
+        Mis Pedidos
+      </Link>
+    
+    </div>
+
+  )
+
+}
+
 // ------------
+
+const SubMenu2  = () => {
+
+  return (
+  
+    <div
+      sx={{
+        display: 'grid',
+        gridGap: 3,
+        gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+        height: "34px",
+        alignItems: "center",
+      }}>
+
+
+      <Link sx={Estilo.menu1}
+        to='/' 
+      >
+      </Link>
+
+
+
+      <Link sx={Estilo.menu1}
+        to='/login' 
+      >
+        Ver mis pedidos
+      </Link>
+
+      <Link sx={Estilo.menu1}
+        to='/acc/signup'
+      >
+        Nuevo Pedido
+      </Link>
+    
+      <Link sx={Estilo.menu1}
+        to='/' 
+      >
+        
+        </Link>
+
+
+
+    </div>
+
+  )
+
+}
+
+// ------------
+
+
+
+
+
+const SubMenu0  = () => {
+
+  return (
+  
+    <div
+      sx={{
+        display: 'grid',
+        gridGap: 3,
+        gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+        height: "34px",
+        alignItems: "center",
+      }}>
+
+
+    </div>
+
+  )
+
+}
+
+// ------------
+
+
+const SubMenuArmar  = (MenuSelected, onMenu) => {
+
+  if (MenuSelected===1 & onMenu) {return SubMenu1()}
+  if (MenuSelected===2 & onMenu) {return SubMenu2()}
+  return SubMenu0()
+}
+
+// ------------
+
 
 
 // ------------
   try {
 
     return (
-
-      <div
-        sx={{
-          display: 'grid',
-          gridGap: 3,
-          gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-        }}>
-
-        <Link sx={Estilo.menu1}
-          to='/acc/login' 
-        >
-          Iniciar Sesión
-        </Link>
-
-        <Link sx={Estilo.menu1}
-          to='/acc/signup'
-        >
-          Registrarse
-        </Link>
-      
-        <Link sx={Estilo.menu1}
-          to='/acc/info'
-        >
-          Mis Datos
-        </Link>
-      
-        <Link sx={Estilo.menu1}
-          to='/orders'
-        >
-          Mis Pedidos
-        </Link>
-      
+      <div>
+        {SubMenuArmar(MenuSelected, onMenu)}
       </div>
     )
 
@@ -310,7 +543,6 @@ export default (App = props => {
           :  <div>
               <SideBar pageWrapId={"page-wrap"} outerContainerId={"App"} />
             </div>                 
-           
         }
 
 
@@ -334,7 +566,18 @@ export default (App = props => {
 
                 >
                   <header sx={{width: "100%"}}>
-                    <Body {...props} />
+                    <HeaderBody {...props} />
+
+                    {isDesktop ? 
+                        <div>
+                          {/* <MenuHeader1 {...props} /> */}
+
+                          <MenuBody {...props} />
+
+                        </div>                 
+                      : <div/>
+                    }
+
 
                   </header>
 
@@ -344,13 +587,8 @@ export default (App = props => {
                   >
 
 
-                    {isDesktop ? 
-                        <div>
-                          <MenuHeader1 {...props} />
-                          <MenuHeader21 {...props} />
-                        </div>                 
-                      : <div/>
-                    }
+                    <Body {...props} />
+
 
 
 
