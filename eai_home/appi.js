@@ -3,6 +3,7 @@ import axios from "axios"
 
 
 
+
 // ---------- styles
   /** @jsx jsx */ 
   import { ThemeProvider, jsx, Styled, useThemeUI, MenuButton } from "theme-ui"
@@ -51,18 +52,34 @@ const useStateUniv = () => {
     },
 
     User: {
-      Id: useState(useContext(createContext(0))),
-      Name: useState(useContext(createContext(""))),
+      Id: useState(useContext(createContext(null))),
+      Name: useState(useContext(createContext(null))),
+      Sucursal: useState(useContext(createContext(0))),
+      LoginName: useState(useContext(createContext(""))),
+      LoginPass: useState(useContext(createContext(""))),
+      Status: useState(useContext(createContext(""))),
+
+    },
+
+    Signup: {
+      Id: useState(useContext(createContext(null))),
+      Name: useState(useContext(createContext(null))),
       LoginName: useState(useContext(createContext(""))),
       LoginPass: useState(useContext(createContext(""))),
     },
 
-    Signup: {
-      Id: useState(useContext(createContext(0))),
-      Name: useState(useContext(createContext(0))),
-      LoginName: useState(useContext(createContext(""))),
-      LoginPass: useState(useContext(createContext(""))),
+    Images: {
+      Logo1: useState(useContext(createContext({src: "https://smxai.net/sf/sflogo1.jpg"}))),
+      Logo2: useState(useContext(createContext({src: "https://smxai.net/sf/sflogo2.jpg"}))),
+      Flechad: useState(useContext(createContext({src: "https://smxai.net/sf/cs1/arrowd1.png"}))),
+      Flechau: useState(useContext(createContext({src: "https://smxai.net/sf/cs1/arrowu1.png"}))),
+      Ayuda: useState(useContext(createContext({src: "https://smxai.net/sf/cs1/ayuda.jpg"}))),
+      Icon1: useState(useContext(createContext({src: "https://smxai.net/sf/cs1/avatar.jpg"}))),
     },
+
+
+
+
 
   };
 };
@@ -85,15 +102,27 @@ let useAcciones = function(StateContext) {
   const [LoginPass, setLoginPass] = useContext(StateContext).User.LoginPass;
   const [UserId, setUserId] = useContext(StateContext).User.Id;
   const [UserName, setUserName] = useContext(StateContext).User.Name;
+  const [Sucursal, setSucursal] = useContext(StateContext).User.Sucursal;
+  const [Status, setStatus] = useContext(StateContext).User.Status;
 
   // ---------------------
   
+
   return {
 
+     getUser : async (props) => {
+      try {
+        const res = await axios.get(server + '/logindata')
+        setUserId(res.data.miid)
+        setUserName(res.data.miuser)
+        setSucursal(res.data.misucursal)
+
+      } catch (e) { console.error(e) }
+    },
+
+
     Loader : async function (props) {
-      const res = await axios.get(server + '/logindata')
-      setUserId(res.data.miid)
-      setUserName(res.data.miuser)
+      this.getUser()
     },
 
 
@@ -109,8 +138,20 @@ let useAcciones = function(StateContext) {
         }
       })
   
+      if(axapi.data._id) {
        await setUserId(axapi.data._id)
        await setUserName(axapi.data.username)
+
+      } else {
+         setStatus("Usuario o pass incorrectos")
+      }
+
+
+
+
+
+
+
     },
 
      Logout : async function (props) {
@@ -121,7 +162,7 @@ let useAcciones = function(StateContext) {
         baseURL: server,
       });
   
-      await setUserId(0)
+      await setUserId(null)
       await setUserName("")
     },
 
@@ -275,248 +316,248 @@ try {
 
 // -----------------------------------------------------------------------------
 
-const MenuHeader1 = props => {
-  const Estilo = useThemeUI().theme.styles;
-  const [MenuSelected, setMenuSelected] = useContext(StateContext).Menu.Selected
-  const [onMenu, setonMenu] = useContext(StateContext).Menu.onMenu
+// const MenuHeader1 = props => {
+//   const Estilo = useThemeUI().theme.styles;
+//   const [MenuSelected, setMenuSelected] = useContext(StateContext).Menu.Selected
+//   const [onMenu, setonMenu] = useContext(StateContext).Menu.onMenu
 
-// -------------
+// // -------------
 
-// ------------
+// // ------------
 
 
-// ------------
-  try {
+// // ------------
+//   try {
 
-    return (
+//     return (
 
-    <div
-      sx={{ width: "100%" }}
-      onMouseOver={() => { setonMenu(true)}}
-      onMouseLeave={() => { 
-        setonMenu(false)
-        setMenuSelected(0)
-      }}
-    >
-      <div
-        sx={{
-          display: 'grid',
-          gridGap: 3,
-          gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-        }}
-      >
+//     <div
+//       sx={{ width: "100%" }}
+//       onMouseOver={() => { setonMenu(true)}}
+//       onMouseLeave={() => { 
+//         setonMenu(false)
+//         setMenuSelected(0)
+//       }}
+//     >
+//       <div
+//         sx={{
+//           display: 'grid',
+//           gridGap: 3,
+//           gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+//         }}
+//       >
 
-        <Link sx={Estilo.menu1}
-          to='/' 
-          onMouseOver={() => { setMenuSelected(1)}}
-        >
-          Mi Cuenta
-        </Link>
+//         <Link sx={Estilo.menu1}
+//           to='/' 
+//           onMouseOver={() => { setMenuSelected(1)}}
+//         >
+//           Mi Cuenta
+//         </Link>
 
-        <Link sx={Estilo.menu1}
-          to='/' 
-          onMouseOver={() => { setMenuSelected(2)}}
-         >
-          Mis Pedidos
-        </Link>
+//         <Link sx={Estilo.menu1}
+//           to='/' 
+//           onMouseOver={() => { setMenuSelected(2)}}
+//          >
+//           Mis Pedidos
+//         </Link>
       
-        <Link sx={Estilo.menu1}
-          to='/' 
-          onMouseOver={() => { setMenuSelected(3)}}
-         >
-          Blog
-        </Link>
+//         <Link sx={Estilo.menu1}
+//           to='/' 
+//           onMouseOver={() => { setMenuSelected(3)}}
+//          >
+//           Blog
+//         </Link>
       
-        <Link sx={Estilo.menu1}
-          to='/' 
-          onMouseOver={() => { setMenuSelected(4)}}
-        >
-          Contacto
-        </Link>
+//         <Link sx={Estilo.menu1}
+//           to='/' 
+//           onMouseOver={() => { setMenuSelected(4)}}
+//         >
+//           Contacto
+//         </Link>
 
-      </div>
+//       </div>
 
-      <MenuHeader21 {...props} />
+//       <MenuHeader21 {...props} />
 
-    </div>
+//     </div>
 
-    )
+//     )
 
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-
-
-
-// -----------------------------------------------------------------------------
+//   } catch (e) {
+//     console.error(e);
+//   }
+// }
 
 
 
-// -----------------------------------------------------------------------------
 
-const MenuHeader21 = props => {
-  const Estilo = useThemeUI().theme.styles;
-
-  const [MenuSelected, setMenuSelected] = useContext(StateContext).Menu.Selected
-  const [onMenu, setonMenu] = useContext(StateContext).Menu.onMenu
-
-
-// -------------
+// // -----------------------------------------------------------------------------
 
 
 
-const SubMenu1  = () => {
+// // -----------------------------------------------------------------------------
 
-  return (
+// const MenuHeader21 = props => {
+//   const Estilo = useThemeUI().theme.styles;
+
+//   const [MenuSelected, setMenuSelected] = useContext(StateContext).Menu.Selected
+//   const [onMenu, setonMenu] = useContext(StateContext).Menu.onMenu
+
+
+// // -------------
+
+
+
+// const SubMenu1  = () => {
+
+//   return (
   
-    <div
-      sx={{
-        display: 'grid',
-        gridGap: 3,
-        gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-        height: "34px",
-        alignItems: "center",
-      }}>
+//     <div
+//       sx={{
+//         display: 'grid',
+//         gridGap: 3,
+//         gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+//         height: "34px",
+//         alignItems: "center",
+//       }}>
 
-      <Link sx={Estilo.menu1}
-        to='/login' 
-      >
-        Iniciar Sesión
-      </Link>
+//       <Link sx={Estilo.menu1}
+//         to='/login' 
+//       >
+//         Iniciar Sesión
+//       </Link>
 
-      <Link sx={Estilo.menu1}
-        to='/acc/signup'
-      >
-        Registrarse
-      </Link>
+//       <Link sx={Estilo.menu1}
+//         to='/acc/signup'
+//       >
+//         Registrarse
+//       </Link>
     
-      <Link sx={Estilo.menu1}
-        to='/acc/info'
-      >
-        Mis Datos
-      </Link>
+//       <Link sx={Estilo.menu1}
+//         to='/acc/info'
+//       >
+//         Mis Datos
+//       </Link>
     
-      <Link sx={Estilo.menu1}
-        to='/orders'
-      >
-        Mis Pedidos
-      </Link>
+//       <Link sx={Estilo.menu1}
+//         to='/orders'
+//       >
+//         Mis Pedidos
+//       </Link>
     
-    </div>
+//     </div>
 
-  )
+//   )
 
-}
+// }
 
-// ------------
+// // ------------
 
-const SubMenu2  = () => {
+// const SubMenu2  = () => {
 
-  return (
+//   return (
   
-    <div
-      sx={{
-        display: 'grid',
-        gridGap: 3,
-        gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-        height: "34px",
-        alignItems: "center",
-      }}>
+//     <div
+//       sx={{
+//         display: 'grid',
+//         gridGap: 3,
+//         gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+//         height: "34px",
+//         alignItems: "center",
+//       }}>
 
 
-      <Link sx={Estilo.menu1}
-        to='/' 
-      >
-      </Link>
+//       <Link sx={Estilo.menu1}
+//         to='/' 
+//       >
+//       </Link>
 
 
 
-      <Link sx={Estilo.menu1}
-        to='/login' 
-      >
-        Ver mis pedidos
-      </Link>
+//       <Link sx={Estilo.menu1}
+//         to='/login' 
+//       >
+//         Ver mis pedidos
+//       </Link>
 
-      <Link sx={Estilo.menu1}
-        to='/acc/signup'
-      >
-        Nuevo Pedido
-      </Link>
+//       <Link sx={Estilo.menu1}
+//         to='/acc/signup'
+//       >
+//         Nuevo Pedido
+//       </Link>
     
-      <Link sx={Estilo.menu1}
-        to='/' 
-      >
+//       <Link sx={Estilo.menu1}
+//         to='/' 
+//       >
         
-        </Link>
+//         </Link>
 
 
 
-    </div>
+//     </div>
 
-  )
+//   )
 
-}
+// }
 
-// ------------
-
-
+// // ------------
 
 
 
-const SubMenu0  = () => {
 
-  return (
+
+// const SubMenu0  = () => {
+
+//   return (
   
-    <div
-      sx={{
-        display: 'grid',
-        gridGap: 3,
-        gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-        height: "34px",
-        alignItems: "center",
-      }}>
+//     <div
+//       sx={{
+//         display: 'grid',
+//         gridGap: 3,
+//         gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
+//         height: "34px",
+//         alignItems: "center",
+//       }}>
 
 
-    </div>
+//     </div>
 
-  )
+//   )
 
-}
+// }
 
-// ------------
-
-
-const SubMenuArmar  = (MenuSelected, onMenu) => {
-
-  if (MenuSelected===1 & onMenu) {return SubMenu1()}
-  if (MenuSelected===2 & onMenu) {return SubMenu2()}
-  return SubMenu0()
-}
-
-// ------------
+// // ------------
 
 
+// const SubMenuArmar  = (MenuSelected, onMenu) => {
 
-// ------------
-  try {
+//   if (MenuSelected===1 & onMenu) {return SubMenu1()}
+//   if (MenuSelected===2 & onMenu) {return SubMenu2()}
+//   return SubMenu0()
+// }
 
-    return (
-      <div>
-        {SubMenuArmar(MenuSelected, onMenu)}
-      </div>
-    )
-
-  } catch (e) {
-    console.error(e);
-  }
-}
+// // ------------
 
 
 
+// // ------------
+//   try {
 
-// -----------------------------------------------------------------------------
+//     return (
+//       <div>
+//         {SubMenuArmar(MenuSelected, onMenu)}
+//       </div>
+//     )
+
+//   } catch (e) {
+//     console.error(e);
+//   }
+// }
+
+
+
+
+// // -----------------------------------------------------------------------------
 
 
 

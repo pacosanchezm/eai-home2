@@ -41,6 +41,7 @@ const Body = props => {
 
   const [UserId, setUserId] = props.useContext.User.Id;
   const [UserName, setUserName] = props.useContext.User.Name;
+  const Images = props.useContext.Images
 
 // ------------
 
@@ -53,23 +54,36 @@ const Body = props => {
       <Grid bg="WhiteSmoke" sx={{justifyContent: 'center', width: "100%"}} >
 
         <Flex bg="WhiteSmoke" sx={{width: "100%" }}>
+
+          <Box >
+            <Image  src={Images.Logo1[0].src} />
+          </Box>
+
+
+          <Box sx={{ width: "100px" }}/>
+
+
           <Flex sx={{ height: "34px", width: "100%" }}>
-            <Box sx={{ width: "100%" }}>
-              <Text sx={Estilo.t1sr} >Sushi Factory app</Text>
-            </Box>
+
+          <Box sx={{ width: "21px", height: "21px" }}>
+            <Image src={Images.Icon1[0].src} />
+          </Box>
+
+
+            {Loading ? <Spinner size={17} ml={3} /> : 
+                <Flex sx={{ height: "34px", width: "100%" }}>
+                  <Box sx={{ width: "100%", textAlign: "left" }}>
+                  <Text sx={Estilo.d1}>{UserName}</Text>
+
+                  </Box>
+                </Flex>
+            }
           </Flex>
+
         </Flex>
 
 
-        <Flex sx={{ height: "34px", width: "100%" }}>
-          {Loading ? <Spinner size={17} ml={3} /> : 
-              <Flex sx={{ height: "34px", width: "100%" }}>
-                <Box sx={{ width: "100%" }}>
-                 {UserId} - {UserName}
-                </Box>
-              </Flex>
-          }
-        </Flex>
+
       </Grid>
     )
     

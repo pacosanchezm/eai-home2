@@ -39,6 +39,10 @@ const Body = props => {
   const [LoginPass, setLoginPass] = props.useContext.User.LoginPass;
   const [UserId, setUserId] = props.useContext.User.Id;
   const [UserName, setUserName] = props.useContext.User.Name;
+  const [Status] = props.useContext.User.Status;
+
+
+
 
 // ---------------
 
@@ -54,6 +58,55 @@ const Body = props => {
     return (
 
       <Flex  sx={{width: "100%" }}>
+
+      {UserId ? 
+      
+    
+    
+        <Grid bg="WhiteSmoke" >
+        <Flex sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%" }}>
+            <Flex sx={{ width: "100%", alignItems: 'center', mb: 3 }}>
+              <Box sx={{ width: "100%"}}>
+                <Text sx={Estilo.h2b} >Estás conectado como:</Text>
+              </Box>
+
+            </Flex>
+
+            <Flex sx={{ width: "100%", alignItems: 'center', mb: 3 }}>
+              <Box sx={{ width: "20%"}}>
+                <Text sx={Estilo.h2b} >{UserName}</Text>
+              </Box>
+
+            </Flex>
+          </Box>
+        </Flex>
+
+        <Flex sx={{ width: "100%" }}>
+
+          <Box sx={{ width: "70%" }}>
+            <Button sx={{ width: "100%", height: "34px" }}
+              width={1}
+              bg={"gray"}
+              //disabled={EnableBoton()}
+              onClick={async () => {
+                setLoading(true)
+                  await props.useAcciones.Logout()
+                setLoading(false)
+              }}
+            >
+              <Text sx={Estilo.mbtn1}>
+                Salir
+              </Text>
+            </Button>
+          </Box>
+            {Loading ? <Spinner size={30} ml={3} /> : <div/>}
+        </Flex>
+
+      </Grid>
+
+
+        :
 
         <Grid bg="WhiteSmoke" >
           <Flex sx={{ width: "100%" }}>
@@ -99,8 +152,24 @@ const Body = props => {
               {Loading ? <Spinner size={30} ml={3} /> : <div/>}
           </Flex>
 
+
+          <Flex sx={{ width: "100%" }}>
+
+            <Box sx={{ width: "70%" }}>
+                {Status}
+            </Box>
+          </Flex>
+
         </Grid>
         
+
+
+              }
+
+
+
+
+
       </Flex>
     )
     
