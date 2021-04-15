@@ -13,7 +13,7 @@ import axios from "axios"
   import "@babel/polyfill"
 
   import { useMediaQuery } from 'react-responsive'
-  import { Router, Link } from "@reach/router";
+  import { Router, Link } from "@reach/router"
 
 
 
