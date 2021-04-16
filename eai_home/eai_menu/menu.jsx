@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 /** @jsx jsx */
 import { ThemeProvider, jsx, Styled, useThemeUI } from "theme-ui";
 import { Flex, Box, Button, Text, Image, Spinner, Grid, Input, Link as Link2 } from "@theme-ui/components";
-import Theme from "./theme"
+import Theme from "../theme"
 
 import { Router, Link } from "@reach/router";
 

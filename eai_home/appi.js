@@ -20,7 +20,9 @@ import axios from "axios"
 
   import Head from "./head"
   import UsedataHome from "./usedata"
-  import Menu from "./menu"
+
+  import Menu from "./eai_menu/menu"
+
 
   import SideBar from "./sidebar";
   import "./styles.css";
@@ -314,259 +316,6 @@ try {
 
 
 
-// -----------------------------------------------------------------------------
-
-// const MenuHeader1 = props => {
-//   const Estilo = useThemeUI().theme.styles;
-//   const [MenuSelected, setMenuSelected] = useContext(StateContext).Menu.Selected
-//   const [onMenu, setonMenu] = useContext(StateContext).Menu.onMenu
-
-// // -------------
-
-// // ------------
-
-
-// // ------------
-//   try {
-
-//     return (
-
-//     <div
-//       sx={{ width: "100%" }}
-//       onMouseOver={() => { setonMenu(true)}}
-//       onMouseLeave={() => { 
-//         setonMenu(false)
-//         setMenuSelected(0)
-//       }}
-//     >
-//       <div
-//         sx={{
-//           display: 'grid',
-//           gridGap: 3,
-//           gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-//         }}
-//       >
-
-//         <Link sx={Estilo.menu1}
-//           to='/' 
-//           onMouseOver={() => { setMenuSelected(1)}}
-//         >
-//           Mi Cuenta
-//         </Link>
-
-//         <Link sx={Estilo.menu1}
-//           to='/' 
-//           onMouseOver={() => { setMenuSelected(2)}}
-//          >
-//           Mis Pedidos
-//         </Link>
-      
-//         <Link sx={Estilo.menu1}
-//           to='/' 
-//           onMouseOver={() => { setMenuSelected(3)}}
-//          >
-//           Blog
-//         </Link>
-      
-//         <Link sx={Estilo.menu1}
-//           to='/' 
-//           onMouseOver={() => { setMenuSelected(4)}}
-//         >
-//           Contacto
-//         </Link>
-
-//       </div>
-
-//       <MenuHeader21 {...props} />
-
-//     </div>
-
-//     )
-
-//   } catch (e) {
-//     console.error(e);
-//   }
-// }
-
-
-
-
-// // -----------------------------------------------------------------------------
-
-
-
-// // -----------------------------------------------------------------------------
-
-// const MenuHeader21 = props => {
-//   const Estilo = useThemeUI().theme.styles;
-
-//   const [MenuSelected, setMenuSelected] = useContext(StateContext).Menu.Selected
-//   const [onMenu, setonMenu] = useContext(StateContext).Menu.onMenu
-
-
-// // -------------
-
-
-
-// const SubMenu1  = () => {
-
-//   return (
-  
-//     <div
-//       sx={{
-//         display: 'grid',
-//         gridGap: 3,
-//         gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-//         height: "34px",
-//         alignItems: "center",
-//       }}>
-
-//       <Link sx={Estilo.menu1}
-//         to='/login' 
-//       >
-//         Iniciar Sesión
-//       </Link>
-
-//       <Link sx={Estilo.menu1}
-//         to='/acc/signup'
-//       >
-//         Registrarse
-//       </Link>
-    
-//       <Link sx={Estilo.menu1}
-//         to='/acc/info'
-//       >
-//         Mis Datos
-//       </Link>
-    
-//       <Link sx={Estilo.menu1}
-//         to='/orders'
-//       >
-//         Mis Pedidos
-//       </Link>
-    
-//     </div>
-
-//   )
-
-// }
-
-// // ------------
-
-// const SubMenu2  = () => {
-
-//   return (
-  
-//     <div
-//       sx={{
-//         display: 'grid',
-//         gridGap: 3,
-//         gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-//         height: "34px",
-//         alignItems: "center",
-//       }}>
-
-
-//       <Link sx={Estilo.menu1}
-//         to='/' 
-//       >
-//       </Link>
-
-
-
-//       <Link sx={Estilo.menu1}
-//         to='/login' 
-//       >
-//         Ver mis pedidos
-//       </Link>
-
-//       <Link sx={Estilo.menu1}
-//         to='/acc/signup'
-//       >
-//         Nuevo Pedido
-//       </Link>
-    
-//       <Link sx={Estilo.menu1}
-//         to='/' 
-//       >
-        
-//         </Link>
-
-
-
-//     </div>
-
-//   )
-
-// }
-
-// // ------------
-
-
-
-
-
-// const SubMenu0  = () => {
-
-//   return (
-  
-//     <div
-//       sx={{
-//         display: 'grid',
-//         gridGap: 3,
-//         gridTemplateColumns: `repeat(auto-fit, minmax(64px, 1fr))`,
-//         height: "34px",
-//         alignItems: "center",
-//       }}>
-
-
-//     </div>
-
-//   )
-
-// }
-
-// // ------------
-
-
-// const SubMenuArmar  = (MenuSelected, onMenu) => {
-
-//   if (MenuSelected===1 & onMenu) {return SubMenu1()}
-//   if (MenuSelected===2 & onMenu) {return SubMenu2()}
-//   return SubMenu0()
-// }
-
-// // ------------
-
-
-
-// // ------------
-//   try {
-
-//     return (
-//       <div>
-//         {SubMenuArmar(MenuSelected, onMenu)}
-//       </div>
-//     )
-
-//   } catch (e) {
-//     console.error(e);
-//   }
-// }
-
-
-
-
-// // -----------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -611,9 +360,9 @@ export default (App = props => {
 
                     {isDesktop ? 
                         <div>
-                          {/* <MenuHeader1 {...props} /> */}
 
                           <MenuBody {...props} />
+
 
                         </div>                 
                       : <div/>
@@ -627,12 +376,7 @@ export default (App = props => {
                     }}
                   >
 
-
                     <Body {...props} />
-
-
-
-
 
                   </main>
 
