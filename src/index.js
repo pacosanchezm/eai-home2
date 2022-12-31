@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "../eai_home/appi.js";
+import App from "./eai_home/appi.js";
 
 const rootElement = document.getElementById("root")
 

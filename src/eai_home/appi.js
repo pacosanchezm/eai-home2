@@ -10,7 +10,7 @@ import axios from "axios"
   import { Grid, Flex, Box, Button, Text, Image, Spinner, Input } from "@theme-ui/components"
 
   import Theme from "./theme"
-  import "@babel/polyfill"
+  // import "@babel/polyfill"
 
   import { useMediaQuery } from 'react-responsive'
   import { Router, Link } from "@reach/router"

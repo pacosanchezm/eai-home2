@@ -73,7 +73,7 @@ const SubMenu1  = () => {
       <Link sx={Estilo.menu1}
         to='/acc/signup'
       >
-        Registrarse
+        
       </Link>
     
       <Link sx={Estilo.menu1}
@@ -85,7 +85,7 @@ const SubMenu1  = () => {
       <Link sx={Estilo.menu1}
         to='/orders'
       >
-        Mis Pedidos
+        
       </Link>
     
     </div>
@@ -118,16 +118,17 @@ const SubMenu2  = () => {
 
 
       <Link2 sx={Estilo.menu1}
-        href='/orders'
+        href='/abonar'
+        target='blank'
       >
-        Ver Pedidos
+        Abonar puntos
       </Link2>
 
       <Link2 sx={Estilo.menu1}
-        href='/orderbook?opt=3'
+        href='/redimir?opt=3'
         target='blank'
       >
-        Nuevo Pedido
+        Redimir puntos
       </Link2>
     
       <Link sx={Estilo.menu1}
@@ -249,7 +250,7 @@ const Body = props => {
         to='/' 
         onMouseOver={() => { setMenuSelected(2)}}
        >
-        Pedidos
+        Visitas
       </Link>
     
       <Link2 sx={Estilo.menu1}
@@ -257,7 +258,7 @@ const Body = props => {
         target='_blank'
         onMouseOver={() => { setMenuSelected(3)}}
        >
-        Entregas
+        Conciliacion
       </Link2>
     
 
