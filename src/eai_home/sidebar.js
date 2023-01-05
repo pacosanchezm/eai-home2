@@ -93,21 +93,15 @@ export default props => {
 
 
 
-            <a className="menu-item" href="/orders">
-              Pedidos
+            <a className="menu-item" href="/egabonar">
+              Abonar
             </a>
 
-            <a className="menu-item" href="/orderbook?opt=3">
-              Nuevo Pedido
+            <a className="menu-item" href="/egcanjear">
+              Canjear
             </a>
 
 
-
-
-
-            <a className="menu-item" href="/togo">
-              Entregas
-            </a>
 
             <a className="menu-item" href="/contact">
               Reportes

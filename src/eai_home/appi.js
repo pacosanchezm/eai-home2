@@ -71,7 +71,7 @@ const useStateUniv = () => {
     },
 
     Images: {
-      Logo1: useState(useContext(createContext({src: "https://smxai.net/sf/sflogo1.jpg"}))),
+      Logo1: useState(useContext(createContext({src: "https://sushifactory.app/sf/sflogo1.jpg"}))),
       Logo2: useState(useContext(createContext({src: "https://smxai.net/sf/sflogo2.jpg"}))),
       Flechad: useState(useContext(createContext({src: "https://smxai.net/sf/cs1/arrowd1.png"}))),
       Flechau: useState(useContext(createContext({src: "https://smxai.net/sf/cs1/arrowu1.png"}))),

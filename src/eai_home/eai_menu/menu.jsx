@@ -126,21 +126,10 @@ const SubMenu2  = () => {
 
 
       <Link2 sx={Estilo.menu1}
-        href='/orderbook?opt=3'
+        href='/egcanjear'
         target='blank'
       >
-        Nuevo Pedido
-      </Link2>
-
-
-
-
-
-      <Link2 sx={Estilo.menu1}
-        href='/redimir?opt=3'
-        target='blank'
-      >
-        Redimir puntos
+        Canjear puntos
       </Link2>
     
       <Link sx={Estilo.menu1}
